@@ -46,4 +46,14 @@ max_count <- max(df_1$count)
 max_count
 ```
 
-## 
+## COPY of Assignment
+
+Make a data frame
+
+```{r}
+df_1 <- data.frame(region = c("A","B","A","D"), species = c("otter","great white","sea lion","gray whale"), count = c(12,2,36,6))
+
+class(df_1$species)
+
+class(df_1)
+```
