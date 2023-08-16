@@ -1,0 +1,56 @@
+---
+title: "wild_data"
+format: html
+editor: visual
+execute: 
+  echo: true
+  warning: false
+---
+
+```{r}
+library(tidyverse)
+library(here)
+library(janitor)
+```
+
+```{r}
+
+```
+
+```{r}
+mack_verts <- read_csv(here::here("data","AS00601.csv")) %>% clean_names()
+
+
+mc_wt_5 <- purrr::pluck(mack_verts,"weight",5)
+mc_wt_5
+
+
+mc_length_8_20 <- mack_verts$length1[8:20]
+mc_length_8_20
+
+mc_dates <- mack_verts$sampledate
+
+mc_salamnders <- dplyr::filter(mack_verts, species == "DITE")
+
+mc_salamnders
+```
+
+```{r}
+salamender_plot<- ggplot(mc_salamnders, aes(x=length1, y = weight)) + geom_point(aes(color = weight, size = weight), alpha = 0.5 ) + scale_color_gradient(low = "blue", high = "red") + labs(title = "Salamender length vs Weight", x = "Length (mm)", y = "Weight (g)", caption = "This is a caption")
+
+salamender_plot
+
+ggsave(here::here("figs","salamender_size.png"))
+```
+
+## Cutthroat plot
+
+```{r}
+mc_trout <- dplyr::filter(mack_verts, species == "ONCL")
+
+trout_plot <- ggplot(data = mc_trout, aes(x = length1,y=weight, color = reach)) + geom_point() + scale_color_manual(values = c("L" = "slategray1","M" = "olivedrab","U" = "black")) + facet_wrap(~mc_trout$reach) + labs(x = "Length(mm)", y = "Weight(g)", title = "Trout length vs weight by reach")
+
+
+ggsave(here::here("figs","cutthroat_size.png"))
+
+```
